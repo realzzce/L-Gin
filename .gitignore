@@ -1,0 +1,8 @@
+.DS_Store
+.air.toml
+
+Users
+Users/*
+
+temp
+temp/*
