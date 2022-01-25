@@ -18,14 +18,13 @@ package main
 import (
 	"context"
 	// "encoding/json"
-
-	"github.com/gin-gonic/gin"
 	// "io/ioutil"
+	handlers "L-Gin/chapter3/handlers"
 	"log"
 	"os"
 
-	handlers "L-Gin/chapter3/handlers"
-
+	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -38,6 +37,7 @@ func init() {
 	// file, _ := ioutil.ReadFile("recipes.json")
 	// _ = json.Unmarshal([]byte(file), &recipes)
 
+	// mongo
 	// ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	// defer cancel()
 	ctx := context.Background()
@@ -51,7 +51,7 @@ func init() {
 	// }
 	log.Println("Connected to MongoDB")
 	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
-	recipesHandler = handlers.NewRecipesHandler(ctx, collection)
+	// recipesHandler = handlers.NewRecipesHandler(ctx, collection)
 
 	// // init insert
 	// var listOfRecipes []interface{}
@@ -67,6 +67,17 @@ func init() {
 	// }
 	// log.Println("Inserted recipes: ", len(insertManyResult.InsertedIDs))
 	//
+
+	// redis
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       3,
+	})
+	status := redisClient.Ping()
+	log.Println(status)
+
+	recipesHandler = handlers.NewRecipesHandler(ctx, collection, redisClient)
 }
 
 func main() {
