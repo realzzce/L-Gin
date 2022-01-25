@@ -42,6 +42,48 @@
           "recipes"
         ],
         "operationId": "newRecipe",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Name",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-name": "Tags",
+            "name": "tags",
+            "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-name": "Ingredients",
+            "name": "ingredients",
+            "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-name": "Instructions",
+            "name": "instructions",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "format": "date-time",
+            "x-go-name": "PublishedAt",
+            "name": "publishedat",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation"
@@ -52,22 +94,20 @@
         }
       }
     },
-    "/recipes/search": {
+    "/recipes/{id}": {
       "get": {
-        "description": "Search recipes based on tags",
+        "description": "Get one recipe",
         "produces": [
           "application/json"
         ],
-        "tags": [
-          "recipes"
-        ],
-        "operationId": "findRecipe",
+        "operationId": "recipes",
         "parameters": [
           {
             "type": "string",
-            "description": "recipe tag",
-            "name": "tag",
-            "in": "query",
+            "x-go-name": "Name",
+            "description": "recipe ID",
+            "name": "id",
+            "in": "path",
             "required": true
           }
         ],
@@ -76,9 +116,7 @@
             "description": "Successful operation"
           }
         }
-      }
-    },
-    "/recipes/{id}": {
+      },
       "put": {
         "description": "Update an existing recipe",
         "produces": [
