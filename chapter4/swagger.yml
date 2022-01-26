@@ -1,0 +1,145 @@
+basePath: /
+consumes:
+- application/json
+host: localhost:8080
+info:
+  description: This is a sample recipes API.
+  title: Recipes API
+  version: 1.0.0
+paths:
+  /recipes:
+    get:
+      description: Returns list of recipes
+      operationId: listRecipes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+      tags:
+      - recipes
+    post:
+      description: Create a new recipe
+      operationId: newRecipe
+      parameters:
+      - in: query
+        name: name
+        type: string
+        x-go-name: Name
+      - in: query
+        items:
+          type: string
+        name: tags
+        type: array
+        x-go-name: Tags
+      - in: query
+        items:
+          type: string
+        name: ingredients
+        type: array
+        x-go-name: Ingredients
+      - in: query
+        items:
+          type: string
+        name: instructions
+        type: array
+        x-go-name: Instructions
+      - format: date-time
+        in: query
+        name: publishedat
+        type: string
+        x-go-name: PublishedAt
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid input
+      tags:
+      - recipes
+  /recipes/{id}:
+    delete:
+      description: Delete an existing recipe
+      operationId: deleteRecipe
+      parameters:
+      - description: ID of the recipe
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: Invalid recipe ID
+      tags:
+      - recipes
+    get:
+      description: Get one recipe
+      operationId: recipes
+      parameters:
+      - description: recipe ID
+        in: path
+        name: id
+        required: true
+        type: string
+        x-go-name: Name
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+    put:
+      description: Update an existing recipe
+      operationId: updateRecipe
+      parameters:
+      - description: ID of the recipe
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid input
+        "404":
+          description: Invalid recipe ID
+      tags:
+      - recipes
+  /refresh:
+    post:
+      description: Refresh token
+      operationId: refresh
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+        "401":
+          description: Invalid credentials
+      tags:
+      - auth
+  /signin:
+    post:
+      description: Login with username and password
+      operationId: signIn
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+        "401":
+          description: Invalid credentials
+      tags:
+      - auth
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
